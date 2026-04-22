@@ -1,0 +1,83 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="80" y1="30" x2="1120" y2="660" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4FBF6"/>
+      <stop offset="1" stop-color="#E4F3EA"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="300" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F3FBF6"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1200" height="700" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#2D6A4F" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="700" rx="28" fill="url(#bg2)"/>
+  <text x="60" y="74" fill="#081C15" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">
+    PrimeTradeML Operational View
+  </text>
+  <text x="60" y="108" fill="#2D6A4F" font-family="Arial, Helvetica, sans-serif" font-size="20">
+    A compact dashboard-style map of how config, data, computation, metrics, and logs move through the batch job.
+  </text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="150" width="250" height="170" rx="22" fill="url(#panel)" stroke="#B7E4C7"/>
+    <text x="88" y="192" fill="#2D6A4F" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">INPUTS</text>
+    <text x="88" y="234" fill="#081C15" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">config.yaml</text>
+    <text x="88" y="268" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">seed: 42</text>
+    <text x="88" y="294" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">window: 5</text>
+    <text x="88" y="320" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">version: v1</text>
+
+    <rect x="60" y="360" width="250" height="220" rx="22" fill="url(#panel)" stroke="#B7E4C7"/>
+    <text x="88" y="402" fill="#2D6A4F" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">DATA INGESTION</text>
+    <text x="88" y="444" fill="#081C15" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">data.csv</text>
+    <text x="88" y="478" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">10,000 OHLCV rows</text>
+    <text x="88" y="504" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">close column validated</text>
+    <text x="88" y="530" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">quoted-row format normalized</text>
+    <text x="88" y="556" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">empty and malformed files rejected</text>
+
+    <rect x="365" y="200" width="470" height="330" rx="24" fill="#143D2B"/>
+    <text x="400" y="246" fill="#95D5B2" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">PROCESSING ENGINE</text>
+    <text x="400" y="288" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">run.py</text>
+
+    <rect x="400" y="324" width="178" height="70" rx="18" fill="#1F5A40"/>
+    <text x="430" y="368" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Validate Config</text>
+
+    <rect x="622" y="324" width="178" height="70" rx="18" fill="#1F5A40"/>
+    <text x="654" y="368" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Load Dataset</text>
+
+    <rect x="400" y="420" width="178" height="70" rx="18" fill="#2D6A4F"/>
+    <text x="426" y="463" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Rolling Mean</text>
+
+    <rect x="622" y="420" width="178" height="70" rx="18" fill="#2D6A4F"/>
+    <text x="667" y="463" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Signals</text>
+
+    <path d="M578 359H622" stroke="#95D5B2" stroke-width="4" stroke-linecap="round"/>
+    <path d="M489 394V420" stroke="#95D5B2" stroke-width="4" stroke-linecap="round"/>
+    <path d="M711 394V420" stroke="#95D5B2" stroke-width="4" stroke-linecap="round"/>
+
+    <text x="400" y="516" fill="#D8F3DC" font-family="Arial, Helvetica, sans-serif" font-size="18">
+      Warm-up policy: first 4 rows keep undefined rolling means and are excluded from signal-rate averaging.
+    </text>
+
+    <rect x="890" y="150" width="250" height="200" rx="22" fill="url(#panel)" stroke="#B7E4C7"/>
+    <text x="918" y="192" fill="#2D6A4F" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">METRICS OUTPUT</text>
+    <text x="918" y="230" fill="#081C15" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">metrics.json</text>
+    <text x="918" y="264" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">version, rows_processed</text>
+    <text x="918" y="290" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">metric, value, latency_ms</text>
+    <text x="918" y="316" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">seed, status</text>
+
+    <rect x="890" y="380" width="250" height="200" rx="22" fill="url(#panel)" stroke="#B7E4C7"/>
+    <text x="918" y="422" fill="#2D6A4F" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">LOG OUTPUT</text>
+    <text x="918" y="460" fill="#081C15" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">run.log</text>
+    <text x="918" y="494" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">job lifecycle timestamps</text>
+    <text x="918" y="520" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">config and row counts</text>
+    <text x="918" y="546" fill="#52796F" font-family="Arial, Helvetica, sans-serif" font-size="18">metrics summary and failures</text>
+  </g>
+
+  <path d="M310 236H365" stroke="#40916C" stroke-width="5" stroke-linecap="round"/>
+  <path d="M310 470H365" stroke="#40916C" stroke-width="5" stroke-linecap="round"/>
+  <path d="M835 250H890" stroke="#40916C" stroke-width="5" stroke-linecap="round"/>
+  <path d="M835 474H890" stroke="#40916C" stroke-width="5" stroke-linecap="round"/>
+</svg>
