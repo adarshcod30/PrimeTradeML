@@ -31,6 +31,9 @@ import pandas as pd
 import yaml
 
 
+DEFAULT_VERSION = "v1"
+
+
 # ──────────────────────────────────────────────────────────────
 # Argument parsing
 # ──────────────────────────────────────────────────────────────
@@ -67,28 +70,27 @@ def parse_args() -> argparse.Namespace:
 # ──────────────────────────────────────────────────────────────
 def setup_logging(log_file: str) -> logging.Logger:
     """
-    Configure structured logging to both file and stdout.
+    Configure structured logging to file only.
+    Stdout is reserved for the final machine-readable metrics JSON.
     Returns the configured logger instance.
     """
     logger = logging.getLogger("PrimeTradeML")
     logger.setLevel(logging.DEBUG)
+    logger.handlers.clear()
+    logger.propagate = False
+
+    log_path = Path(log_file)
+    log_path.parent.mkdir(parents=True, exist_ok=True)
 
     formatter = logging.Formatter(
         fmt="%(asctime)s | %(levelname)-8s | %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
-    # File handler — captures everything
-    fh = logging.FileHandler(log_file, mode="w", encoding="utf-8")
+    fh = logging.FileHandler(log_path, mode="w", encoding="utf-8")
     fh.setLevel(logging.DEBUG)
     fh.setFormatter(formatter)
     logger.addHandler(fh)
-
-    # Console handler — INFO and above
-    ch = logging.StreamHandler(sys.stdout)
-    ch.setLevel(logging.INFO)
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
 
     return logger
 
@@ -99,7 +101,7 @@ def setup_logging(log_file: str) -> logging.Logger:
 def write_error_metrics(
     output_path: str,
     error_message: str,
-    version: str = "unknown",
+    version: str = DEFAULT_VERSION,
 ) -> None:
     """Write a structured error-state metrics file."""
     metrics = {
@@ -107,7 +109,9 @@ def write_error_metrics(
         "status": "error",
         "error_message": error_message,
     }
-    Path(output_path).write_text(
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
         json.dumps(metrics, indent=2) + "\n", encoding="utf-8"
     )
 
@@ -311,6 +315,7 @@ def generate_signals(
 # ──────────────────────────────────────────────────────────────
 def compute_and_write_metrics(
     signal: pd.Series,
+    total_rows: int,
     config: dict,
     latency_ms: int,
     output_path: str,
@@ -324,12 +329,11 @@ def compute_and_write_metrics(
     NaN rows).
     """
     valid_signals = signal.dropna()
-    rows_processed = len(valid_signals)
     signal_rate = round(float(valid_signals.mean()), 4)
 
     metrics = {
         "version": config["version"],
-        "rows_processed": rows_processed,
+        "rows_processed": total_rows,
         "metric": "signal_rate",
         "value": signal_rate,
         "latency_ms": latency_ms,
@@ -337,14 +341,17 @@ def compute_and_write_metrics(
         "status": "success",
     }
 
-    Path(output_path).write_text(
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
         json.dumps(metrics, indent=2) + "\n", encoding="utf-8"
     )
 
     logger.info(
         "Metrics computed  |  rows_processed=%d  "
-        "signal_rate=%.4f  latency_ms=%d",
-        rows_processed,
+        "valid_signal_rows=%d  signal_rate=%.4f  latency_ms=%d",
+        total_rows,
+        len(valid_signals),
         signal_rate,
         latency_ms,
     )
@@ -388,7 +395,7 @@ def main() -> int:
         args.log_file,
     )
 
-    version = "unknown"
+    version = DEFAULT_VERSION
 
     try:
         # ── Step 1: Config ──────────────────────────────────
@@ -416,7 +423,12 @@ def main() -> int:
         # ── Metrics ─────────────────────────────────────────
         elapsed_ms = int((time.perf_counter() - start_time) * 1000)
         metrics = compute_and_write_metrics(
-            signal, config, elapsed_ms, args.output, logger
+            signal,
+            len(df),
+            config,
+            elapsed_ms,
+            args.output,
+            logger,
         )
 
         logger.info("-" * 60)
@@ -438,7 +450,7 @@ def main() -> int:
 
     except (FileNotFoundError, ValueError, yaml.YAMLError) as exc:
         elapsed_ms = int((time.perf_counter() - start_time) * 1000)
-        logger.error("Pipeline failed: %s", exc)
+        logger.exception("Pipeline failed: %s", exc)
         write_error_metrics(args.output, str(exc), version)
         logger.info("=" * 60)
         logger.info(
@@ -460,12 +472,20 @@ def main() -> int:
     except Exception as exc:
         elapsed_ms = int((time.perf_counter() - start_time) * 1000)
         logger.exception("Unexpected error: %s", exc)
-        write_error_metrics(args.output, f"Unexpected: {exc}", version)
+        error_payload = {
+            "version": version,
+            "status": "error",
+            "error_message": f"Unexpected: {exc}",
+        }
+        write_error_metrics(
+            args.output, error_payload["error_message"], version
+        )
         logger.info("=" * 60)
         logger.info(
             "JOB END  |  status=FAILED  |  duration=%dms", elapsed_ms
         )
         logger.info("=" * 60)
+        print(json.dumps(error_payload, indent=2))
         return 1
 
 
