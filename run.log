@@ -1,29 +1,29 @@
-2026-04-23 00:48:13 | INFO     | ============================================================
-2026-04-23 00:48:13 | INFO     | JOB START  |  2026-04-22 19:18:13 UTC
-2026-04-23 00:48:13 | INFO     | ============================================================
-2026-04-23 00:48:13 | INFO     | CLI args  |  input=data.csv  config=config.yaml  output=metrics.json  log_file=run.log
-2026-04-23 00:48:13 | INFO     | Step 1/5: Loading configuration...
-2026-04-23 00:48:13 | INFO     | Config loaded and validated  |  seed=42  window=5  version=v1
-2026-04-23 00:48:13 | INFO     | Step 2/5: Setting deterministic seed...
-2026-04-23 00:48:13 | INFO     | NumPy random seed set to 42
-2026-04-23 00:48:13 | INFO     | Step 3/5: Loading dataset...
-2026-04-23 00:48:13 | INFO     | Dataset loaded  |  rows=10000  columns=7  close_range=[41939.28, 50949.16]
-2026-04-23 00:48:13 | INFO     | Step 4/5: Computing rolling mean...
-2026-04-23 00:48:13 | INFO     | Rolling mean computed  |  window=5  valid_rows=9996  nan_rows=4
-2026-04-23 00:48:13 | INFO     | Step 5/5: Generating trading signals...
-2026-04-23 00:48:13 | INFO     | Signals generated  |  bullish=4989  bearish=5007  excluded(NaN)=4
-2026-04-23 00:48:13 | INFO     | Metrics computed  |  rows_processed=10000  valid_signal_rows=9996  signal_rate=0.4991  latency_ms=14
-2026-04-23 00:48:13 | INFO     | ------------------------------------------------------------
-2026-04-23 00:48:13 | INFO     | METRICS SUMMARY
-2026-04-23 00:48:13 | INFO     | ------------------------------------------------------------
-2026-04-23 00:48:13 | INFO     |   version              : v1
-2026-04-23 00:48:13 | INFO     |   rows_processed       : 10000
-2026-04-23 00:48:13 | INFO     |   metric               : signal_rate
-2026-04-23 00:48:13 | INFO     |   value                : 0.4991
-2026-04-23 00:48:13 | INFO     |   latency_ms           : 14
-2026-04-23 00:48:13 | INFO     |   seed                 : 42
-2026-04-23 00:48:13 | INFO     |   status               : success
-2026-04-23 00:48:13 | INFO     | ------------------------------------------------------------
-2026-04-23 00:48:13 | INFO     | ============================================================
-2026-04-23 00:48:13 | INFO     | JOB END  |  status=SUCCESS  |  duration=14ms
-2026-04-23 00:48:13 | INFO     | ============================================================
+2026-04-23 00:51:10 | INFO     | ============================================================
+2026-04-23 00:51:10 | INFO     | JOB START  |  2026-04-22 19:21:10 UTC
+2026-04-23 00:51:10 | INFO     | ============================================================
+2026-04-23 00:51:10 | INFO     | CLI args  |  input=data.csv  config=config.yaml  output=metrics.json  log_file=run.log
+2026-04-23 00:51:10 | INFO     | Step 1/5: Loading configuration...
+2026-04-23 00:51:10 | INFO     | Config loaded and validated  |  seed=42  window=5  version=v1
+2026-04-23 00:51:10 | INFO     | Step 2/5: Setting deterministic seed...
+2026-04-23 00:51:10 | INFO     | NumPy random seed set to 42
+2026-04-23 00:51:10 | INFO     | Step 3/5: Loading dataset...
+2026-04-23 00:51:10 | INFO     | Dataset loaded  |  rows=10000  columns=7  close_range=[41939.28, 50949.16]
+2026-04-23 00:51:10 | INFO     | Step 4/5: Computing rolling mean...
+2026-04-23 00:51:10 | INFO     | Rolling mean computed  |  window=5  valid_rows=9996  nan_rows=4
+2026-04-23 00:51:10 | INFO     | Step 5/5: Generating trading signals...
+2026-04-23 00:51:10 | INFO     | Signals generated  |  bullish=4989  bearish=5007  excluded(NaN)=4
+2026-04-23 00:51:10 | INFO     | Metrics computed  |  rows_processed=10000  valid_signal_rows=9996  signal_rate=0.4991  latency_ms=11
+2026-04-23 00:51:10 | INFO     | ------------------------------------------------------------
+2026-04-23 00:51:10 | INFO     | METRICS SUMMARY
+2026-04-23 00:51:10 | INFO     | ------------------------------------------------------------
+2026-04-23 00:51:10 | INFO     |   version              : v1
+2026-04-23 00:51:10 | INFO     |   rows_processed       : 10000
+2026-04-23 00:51:10 | INFO     |   metric               : signal_rate
+2026-04-23 00:51:10 | INFO     |   value                : 0.4991
+2026-04-23 00:51:10 | INFO     |   latency_ms           : 11
+2026-04-23 00:51:10 | INFO     |   seed                 : 42
+2026-04-23 00:51:10 | INFO     |   status               : success
+2026-04-23 00:51:10 | INFO     | ------------------------------------------------------------
+2026-04-23 00:51:10 | INFO     | ============================================================
+2026-04-23 00:51:10 | INFO     | JOB END  |  status=SUCCESS  |  duration=11ms
+2026-04-23 00:51:10 | INFO     | ============================================================
