@@ -14,10 +14,6 @@
 
 <br />
 
-![PrimeTradeML Hero](docs/assets/hero.svg)
-
-<br />
-
 **Task Focus:** Reproducibility, observability, deployment readiness  
 **Domain Fit:** Trading-signal style batch processing  
 **Primary Output:** `metrics.json` and `run.log`
@@ -62,9 +58,6 @@ This repository is strictly modeled as a small **trading-signal production compo
 ---
 
 ## 📐 System Architecture
-
-> 📸 **Operational View:** How config, data, computation, metrics, and logs move through the batch job.
-> ![Pipeline Board](docs/assets/pipeline-board.svg)
 
 ### High-Level Execution Flow
 
