@@ -1,0 +1,16 @@
+# ============================================================
+# PrimeTradeML - Batch Pipeline Configuration
+# ============================================================
+# This file controls all parameters for the deterministic
+# signal-generation pipeline. Every run with the same config
+# and dataset produces identical results.
+# ============================================================
+
+# Random seed for full reproducibility
+seed: 42
+
+# Rolling mean window size (number of periods)
+window: 5
+
+# Pipeline version tag (embedded in metrics output)
+version: "v1"
