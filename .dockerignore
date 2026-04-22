@@ -1,0 +1,25 @@
+# Virtual environments
+mlops-venv/
+.venv/
+venv/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Task spec (not needed in container)
+Task.docx
+
+# Docs (not needed in container)
+docs/
+README.md
