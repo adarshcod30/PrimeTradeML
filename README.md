@@ -41,7 +41,21 @@ Build a minimal but professional MLOps-style batch job in Python that demonstrat
 - **Operational Visibility** through structured logs and machine-readable metrics (`metrics.json`).
 - **Deployment Readiness** through a Dockerized, one-command runtime environment.
 
-This repository is strictly modeled as a small **trading-signal production component**. It ingests market-style OHLCV data, computes a rolling mean on the `close` column, generates a binary trading signal, emits structured observability metrics, and handles all edge-case failures cleanly to ensure robust CI/CD integration.
+---
+
+## 🧠 What Exactly Does This Code Do?
+
+At its core, this project is an automated **Data Engineering & Trading Pipeline**. 
+
+Here is a plain-English breakdown of how it works:
+1. **The Data:** It ingests `data.csv`, which contains 10,000 rows of historical Bitcoin price data.
+2. **The Math:** It calculates a **Rolling Mean** (a moving average) of the closing price over a specific time window. In `config.yaml`, this is set to `5`.
+3. **The Signal:** It compares the current Close price to this Rolling Mean:
+   - If `Close > Rolling Mean`, it generates a **1 (Bullish Signal)**.
+   - Otherwise, it generates a **0 (Bearish Signal)**.
+4. **The Output:** It calculates the **Signal Rate** (the percentage of the time the signal was `1`, which is `0.4991` or 49.91%). It then outputs this metric into a clean, machine-readable `metrics.json` file for downstream systems to consume.
+
+This project proves how to take a simple mathematical idea and write it so securely that it can run unattended on a server without breaking.
 
 ---
 
