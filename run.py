@@ -221,8 +221,9 @@ def load_dataset(input_path: str, logger: logging.Logger) -> pd.DataFrame:
             f"Available columns: [{available}]"
         )
 
-    # Coerce close to numeric
-    df["close"] = pd.to_numeric(df["close"], errors="coerce")
+    # Coerce close to numeric (use .loc to avoid chained assignment)
+    df = df.copy()
+    df.loc[:, "close"] = pd.to_numeric(df["close"], errors="coerce")
     nan_count = df["close"].isna().sum()
     if nan_count == len(df):
         raise ValueError("Column 'close' contains no valid numeric values")
@@ -287,7 +288,7 @@ def generate_signals(
     signal = pd.Series(np.nan, index=df.index, dtype="float64")
 
     valid_mask = rolling_mean.notna()
-    signal[valid_mask] = np.where(
+    signal.loc[valid_mask] = np.where(
         df.loc[valid_mask, "close"] > rolling_mean[valid_mask], 1, 0
     ).astype(float)
 
